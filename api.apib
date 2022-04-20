@@ -1,0 +1,59 @@
+FORMAT: 1A
+
+# ユーザー
+
+## ユーザー登録API [POST]
+
+ユーザーを登録するAPIです。
+
+## エンドポイント [/users]
+
+### 処理概要
+
+* ユーザ情報を新しく登録する。
+
++ Request (application/json)
+    + Headers
+        Accept: application/json
+
+    + Attributes
+        + name: 小山太郎 (string, required) - 名前（最大255文字）
+        + birthdate: 1990-01-01 (string, required) - 生年月日（pattern: yyyy-MM-dd）
+
+    + Body
+        {
+            "name": "小山",
+            "birthdate": "2022-01-01"
+        }
+
++ Response 201 (application/json)
+
+    + Body
+        {
+            "message":"successfully registered",
+            "id": "ulid形式のid"
+        }
+
++ Response 400 (application/json)
+
+    + Body
+        {
+            "message":"validation error",
+            "errors":[
+                {
+                    "field":"name",
+                    "messages":[
+                        "cannot be empty",
+                        "maximum length is 255"
+                    ]
+                },
+                {
+                    "field":"birthdate",
+                    "messages":[
+                        "cannot be null",
+                        "format should be yyyy-MM-dd",
+                        "cannot set future date"
+                    ]
+                }
+            ]
+        }
